@@ -1,0 +1,7 @@
+./project/.git
+gitlab-runner-register.sh
+
+gitlab-config
+gitlab-data
+gitlab-logs
+gitlab-runner1-config

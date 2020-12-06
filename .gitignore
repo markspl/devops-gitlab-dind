@@ -1,5 +1,7 @@
 ./project/.git
+
 gitlab-runner-register.sh
+runner-registration.sh
 
 gitlab-config
 gitlab-data

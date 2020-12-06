@@ -50,3 +50,5 @@ Here you can see all project's Jobs: http://localhost:8080/root/project/-/jobs
    - Line-endings
    - Solve with mounting a single file.
    - https://stackoverflow.com/questions/36765138/
+ - Docker-in-docker detects containers which are stored on host pc. Need to rename containers which are tested in gitlab-ci, or delete original containers from the host pc.
+ - Even forcing docker-compose to recreate with flag "--force-recreate", it did not recreate containers and used old code. One day fightning with the Docker why I couldn't connect to HTTPSERV and the reason was that.

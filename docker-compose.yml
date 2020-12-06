@@ -30,7 +30,7 @@ services:
     volumes:
       - './gitlab-runner1-config:/etc/gitlab-runner:Z'
       - '/var/run/docker.sock:/var/run/docker.sock'
-      - './registration.sh:/home/gitlab-runner/registration.sh'
+      - './runner-registration.sh:/home/gitlab-runner/registration.sh'
     networks:
       - gitlab-network
 

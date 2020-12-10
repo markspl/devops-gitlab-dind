@@ -1,8 +1,8 @@
 image: docker:latest
 
 stages:
-  - build
-  - cleanup
+  - test
+  - lint
 
 services:
   - docker:dind
@@ -16,14 +16,23 @@ cache:
 before_script:
   - apk add docker-compose
 
-build:
-  stage: build
+test:
+  stage: test
   script:
     - apk add --update nodejs npm
     - npm ci --cache .npm --prefer-offline
     - docker-compose up -d --force-recreate --build
     - chmod +x ./test-wait.sh && ./test-wait.sh
     - npm run test
+
+eslint:
+  stage: lint
+  allow_failure: true
+  script:
+    - apk add --update npm
+    - npm ci --cache .npm --prefer-offline
+    - npm run lint
+    - npm run lint-html
 
 after_script:
   - docker-compose down

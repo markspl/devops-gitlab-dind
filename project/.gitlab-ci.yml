@@ -1,0 +1,29 @@
+image: docker:latest
+
+stages:
+  - build
+  - cleanup
+
+services:
+  - docker:dind
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm/
+
+# - apk add --no-cache docker-compose nodejs npm
+before_script:
+  - apk add docker-compose
+
+build:
+  stage: build
+  script:
+    - apk add --update nodejs npm
+    - npm ci --cache .npm --prefer-offline
+    - docker-compose up -d --force-recreate --build
+    - chmod +x ./test-wait.sh && ./test-wait.sh
+    - npm run test
+
+after_script:
+  - docker-compose down

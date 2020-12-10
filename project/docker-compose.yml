@@ -1,0 +1,81 @@
+version: "3"
+
+services:
+  # ========== RABBITMQ
+  rabbit:
+    image: rabbitmq:latest
+    container_name: GITLAB_RABBITMQ
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  # ========== ORIG
+  # Publishes 3 messages to topic my.o
+  orig:
+    container_name: GITLAB_ORIG
+    build: ./orig
+    environment:
+      - RABBIT_HOST=amqp://rabbit
+    depends_on:
+      - rabbit
+      - imed
+      - obse
+      - httpserv
+    restart: on-failure:10
+    links:
+      - rabbit
+
+  # ========== IMED
+  # Receives message from topic my.o
+  # Publishes new message to topic my.i
+  imed:
+    container_name: GITLAB_IMED
+    build: ./imed
+    environment:
+      - RABBIT_HOST=amqp://rabbit
+    depends_on:
+      - rabbit
+    restart: on-failure:10
+    links:
+      - rabbit
+
+  # ========== OBSE
+  # Receives message from any topic
+  # Writes received messages into output file
+  obse:
+    container_name: GITLAB_OBSE
+    build: ./obse
+    environment:
+      - RABBIT_HOST=amqp://rabbit
+    depends_on:
+      - rabbit
+    restart: on-failure:10
+    links:
+      - rabbit
+    ports:
+      - "10010:9000"
+    volumes:
+      - output_data:/output_data
+
+  # ========== HTTPSERV
+  # Will show the output file on localhost:8080 (changed for final assignment)
+  httpserv:
+    container_name: GITLAB_HTTPSERV
+    hostname: gitlab_httpserv
+    build: ./httpserv
+    ports:
+      - "8082:8080"
+    volumes:
+      - output_data:/output_data:ro
+    depends_on:
+      - obse
+    networks:
+      - gitlab-network
+
+volumes:
+  # To share the output file between OBSE and HTTPSERV
+  output_data:
+
+networks:
+  gitlab-network:
+    external: true

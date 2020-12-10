@@ -1,4 +1,4 @@
-./project/.git
+project/.git
 
 gitlab-runner-register.sh
 runner-registration.sh

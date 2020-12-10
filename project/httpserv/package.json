@@ -1,0 +1,12 @@
+{
+  "name": "HTTPSERV",
+  "version": "1.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "description": "HTTPSERV server",
+  "author": "Markus Palomäki",
+  "main": "server_httpserv.js",
+  "scripts": {
+    "start": "node server_httpserv.js"
+  }
+}

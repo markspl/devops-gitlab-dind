@@ -8,7 +8,7 @@ chai.use(chaiHttp);
 // Website address
 const app = "http://gitlab_httpserv:8080";
 
-describe("HTTPSERV (waiting 10s before continuing)", () => {
+describe("HTTPSERV", () => {
 
   let res;
 

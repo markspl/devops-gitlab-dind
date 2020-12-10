@@ -4,9 +4,9 @@
   "description": "COMP.SE.140 Project",
   "main": "index.js",
   "scripts": {
-    "test": "echo 'Waiting 10 seconds before continuing...' && sleep 10 && mocha --exit --timeout 10000 --retries 2 --recursive tests",
+    "test": "echo 'Waiting 15 seconds before continuing...' && sleep 15 && mocha --exit --timeout 10000 --retries 2 --recursive tests",
     "lint": "eslint --format codeframe httpserv/server_httpserv.js imed/server_imed.js obse/server_obse.js orig/server_orig.js",
-    "lint-html": "eslint --format node_modules/eslint-html-reporter/reporter.js -o tests/lint-report.html httpserv/server_httpserv.js imed/server_imed.js obse/server_obse.js orig/server_orig.js"
+    "lint-report": "eslint --format codeframe imed/server_imed.js obse/server_obse.js orig/server_orig.js > tests/lint-report.md"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,6 @@
   "dependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "eslint-html-reporter": "^0.7.4",
     "mocha": "^8.2.1"
   },
   "devDependencies": {

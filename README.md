@@ -3,7 +3,7 @@
 - `docker-compose up -d`
 - Wait `gitlabweb` container fully booting up.
  - Reload `http://localhost:8080` until it asks you to..
- - Change password. Change password to which you easily remember, for example `1234567890`. These login information will be used when pushing the project on local Gitlab web server.
+ - Change password. Change password to which you easily remember, for example `1234567890`. These login information will be used when pushing the project on local Gitlab web server. Username is `root`.
 - Upload repository with command `./create-gitlab-project.sh`. This uploads the project on local Gitlab server.
 
 >**NOTE (Windows):**
@@ -13,7 +13,7 @@
 >
 > Your computer may try push repository with wrong credentials, which are stored in the system. This can be done with CMD (Administrator) command which removes GIT credential manager for Windows with `git config --system --unset credential.helper` or from `Control Panel > Credentials Manager` where the GIT account should be deleted.
 
-- Go to website `http://localhost:8080/root/project/-/settings/ci_cd` and copy `registration token` from under topic **Runners**.  
+- Go to website http://localhost:8080/root/project/-/settings/ci_cd and copy `registration token` from under topic **Runners**.  
 
 > **<ins>If you have a Windows PC</ins>:** *(Sorry, I couldn't find better way to solve this. More about this later)*
 >
@@ -39,16 +39,10 @@
 
 Here you can see all project's Jobs: http://localhost:8080/root/project/-/jobs
 
-### Solved issues
-- Credentials problem on Windows and GIT
-- GitLab's projects *Jobs*
- - `ERROR: Failed to remove network for build`
- - `ERROR: Job failed: invalid volume specification`
- - -> Solved with removing `docker volumes` from file `gitlab-runner-register.sh` but
-   - `ERROR: error during connect: Get http://docker:2375/v1.40/info: dial tcp: lookup docker on 127.0.0.11:53: no such host`
- - write about exec and the files `runner-registration.sh` and `gitlab-runner-register.sh`
-   - Line-endings
-   - Solve with mounting a single file.
-   - https://stackoverflow.com/questions/36765138/
- - Docker-in-docker detects containers which are stored on host pc. Need to rename containers which are tested in gitlab-ci, or delete original containers from the host pc.
- - Even forcing docker-compose to recreate with flag "--force-recreate", it did not recreate containers and used old code. One day fightning with the Docker why I couldn't connect to HTTPSERV and the reason was that.
+### Possible errors
+
+#### Gitlab CI: "Starting service docker:dind. not found (docker.go:460:0s)"
+
+This happens on Windows OS.
+
+Check `gitlab-runner1-config/config.toml` file. It may have `\r` or other extra strings in names. Removing these the error should be gone.
